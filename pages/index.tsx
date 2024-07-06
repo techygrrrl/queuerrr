@@ -45,6 +45,7 @@ export default function Home() {
             className="relative drop-shadow-[0_0_0.3rem_#ffffff70]"
             src="/queuerrr-logo.svg"
             alt="queuerrr by techygrrrl"
+            title="queuerrr by techygrrrl"
             width={322}
             height={131}
             priority
