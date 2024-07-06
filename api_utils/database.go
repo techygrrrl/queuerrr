@@ -80,6 +80,25 @@ func (q QueueRepository) FindUser(userId string) (*Entry, error) {
 	return &entries[0], nil
 }
 
+// / NextInQueue returns the next user in the queue and removes them from the database
+func (q QueueRepository) NextInQueue() (*Entry, error) {
+	var entries []Entry
+	err := q.db.Select(&entries, "SELECT * FROM queue ORDER BY created_at ASC LIMIT 1")
+	if err != nil {
+		return nil, err
+	}
+
+	if len(entries) == 0 {
+		return nil, fmt.Errorf("queue is empty")
+	}
+
+	entry := &entries[0]
+
+	err = q.LeaveQueue(entry.UserId)
+
+	return entry, err
+}
+
 func (q QueueRepository) CloseDatabaseConnection() error {
 	return q.db.Close()
 }
