@@ -52,6 +52,20 @@ func (q QueueRepository) GetPosition(userId string) int {
 	return int(userPosition)
 }
 
+func (q QueueRepository) GetAll() ([]Entry, error) {
+	var entries []Entry
+	err := q.db.Select(&entries, "SELECT * FROM queue ORDER BY created_at ASC")
+	if err != nil {
+		return nil, err
+	}
+
+	if len(entries) == 0 {
+		entries = make([]Entry, 0)
+	}
+
+	return entries, nil
+}
+
 func (q QueueRepository) FindUser(userId string) (*Entry, error) {
 	var entries []Entry
 	err := q.db.Select(&entries, "SELECT * FROM queue WHERE twitch_user_id = $1 LIMIT 1", userId)
