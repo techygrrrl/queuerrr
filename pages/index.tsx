@@ -54,7 +54,7 @@ export default function Home() {
 
         {total > 0 ? (
           <>
-            <p className="text-white mt-[160px] mb-[80px]">
+            <p className="text-white mt-[80px] mb-[30px]">
               The following users are in the queue
             </p>
 
@@ -84,6 +84,57 @@ export default function Home() {
         ) : (
           <p className="text-white mt-[160px]">The queue is currently empty.</p>
         )}
+
+        <p className="text-center text-white mt-[80px] mb-[30px]">
+          Available commands
+        </p>
+
+        <table className="w-100 sm:w-10/12 lg:w-6/12 border-solid border border-white border-opacity-20">
+          <thead>
+            <tr className="border-solid border border-white border-opacity-20">
+              <th className="py-2 px-4 bg-slate-900">Command</th>
+              <th className="py-2 px-4 bg-slate-900">Description</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td className="whitespace-nowrap align-top py-2 px-4 border-solid border border-white border-opacity-20">
+                <code>!join</code> or <code>!queue join</code>
+              </td>
+              <td className="py-2 px-4 border-solid border border-white border-opacity-20">
+                Join the queue
+              </td>
+            </tr>
+
+            <tr>
+              <td className="whitespace-nowrap align-top py-2 px-4 border-solid border border-white border-opacity-20">
+                <code>!leave</code> or <code>!queue leave</code>
+              </td>
+              <td className="py-2 px-4 border-solid border border-white border-opacity-20">
+                Leave the queue
+              </td>
+            </tr>
+
+            <tr>
+              <td className="whitespace-nowrap align-top py-2 px-4 border-solid border border-white border-opacity-20">
+                <code>!position</code> or <code>!queue position</code>
+              </td>
+              <td className="align-top py-2 px-4 border-solid border border-white border-opacity-20">
+                See your position in the queue
+              </td>
+            </tr>
+
+            <tr>
+              <td className="whitespace-nowrap align-top py-2 px-4 border-solid border border-white border-opacity-20">
+                <code>!info</code> or <code>!queue info</code>
+              </td>
+              <td className="align-top py-2 px-4 border-solid border border-white border-opacity-20">
+                Get a list of everyone in the queue. This page, however, refreshes automatically.
+              </td>
+            </tr>
+          </tbody>
+        </table>
 
         <footer className="mt-20">
           <p className="text-center">
