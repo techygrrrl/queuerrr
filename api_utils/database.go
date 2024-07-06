@@ -98,3 +98,12 @@ func (q QueueRepository) LeaveQueue(userId string) error {
 
 	return nil
 }
+
+func (q QueueRepository) ClearQueue() error {
+	_, err := q.db.Exec("DELETE FROM queue")
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
