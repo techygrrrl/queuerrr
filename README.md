@@ -2,7 +2,19 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-First, run the development server:
+See `.envrc.example` for environment variables that are needed. You can do the following to copy the file then use direnv to use them before running the development server:
+
+```bash
+# 1. copy the example file
+cp .envrc.example .envrc
+
+# 2. Edit the env variables
+
+# 3. Load the env variables
+direnv allow
+```
+
+Next, run the development server:
 
 ```bash
 npm run vercel

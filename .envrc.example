@@ -1,0 +1,2 @@
+export POSTGRES_CONNECTION_URL=""
+export AUTH_TOKEN=""
