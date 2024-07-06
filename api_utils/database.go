@@ -89,3 +89,12 @@ func (q QueueRepository) JoinQueue(userId string, username string, notes string)
 
 	return nil
 }
+
+func (q QueueRepository) LeaveQueue(userId string) error {
+	_, err := q.db.Exec(`DELETE FROM queue WHERE twitch_user_id = $1;`, userId)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

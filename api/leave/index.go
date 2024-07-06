@@ -1,13 +1,10 @@
-package join
+package leave
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
-	"net/url"
-	"strings"
 
-	api_utils "github.com/techygrrrl/queuerrr/api_utils"
+	"github.com/techygrrrl/queuerrr/api_utils"
 )
 
 func Json(w http.ResponseWriter, r *http.Request) {
@@ -21,22 +18,9 @@ func Json(w http.ResponseWriter, r *http.Request) {
 
 	// Get the data
 	query := r.URL.Query()
-	username := query.Get("username")
-	if username == "" {
-		w.Write(api_utils.ErrorJson("missing query param: username"))
-		return
-	}
-
 	userId := query.Get("user_id")
 	if userId == "" {
 		w.Write(api_utils.ErrorJson("missing query param: user_id"))
-		return
-	}
-
-	notes := query.Get("notes")
-	notes, err = url.QueryUnescape(notes)
-	if err != nil {
-		w.Write(api_utils.ErrorJson(err.Error()))
 		return
 	}
 
@@ -45,31 +29,24 @@ func Json(w http.ResponseWriter, r *http.Request) {
 		w.Write(api_utils.ErrorJson(err.Error()))
 		return
 	}
-
 	repo := api_utils.NewQueueRepository(db)
 
-	err = repo.JoinQueue(userId, username, notes)
+	_, err = repo.FindUser(userId)
 	if err != nil {
-		fmt.Printf("here 1: %s", err.Error())
-
-		var errorMessage string
-		if strings.Contains(err.Error(), "duplicate key") {
-			errorMessage = "user already in the queue"
-		} else {
-			errorMessage = err.Error()
-		}
-
-		w.Write(api_utils.ErrorJson(errorMessage))
+		w.Write(api_utils.ErrorJson("user not in queue"))
 		return
 	}
 
-	entry, err := repo.FindUser(userId)
+	err = repo.LeaveQueue(userId)
 	if err != nil {
 		w.Write(api_utils.ErrorJson(err.Error()))
 		return
 	}
 
-	res, err := json.Marshal(entry)
+	payload := map[string]string{
+		"status": "successfully left queue",
+	}
+	res, err := json.Marshal(payload)
 	if err != nil {
 		w.Write(api_utils.ErrorJson(err.Error()))
 		return

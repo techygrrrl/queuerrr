@@ -28,6 +28,7 @@ func Json(w http.ResponseWriter, r *http.Request) {
 		w.Write(api_utils.ErrorJson(err.Error()))
 		return
 	}
+
 	repo := api_utils.NewQueueRepository(db)
 
 	position := repo.GetPosition(userId)
