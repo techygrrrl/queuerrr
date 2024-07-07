@@ -12,6 +12,7 @@ func Json(w http.ResponseWriter, r *http.Request) {
 
 	db, err := api_utils.NewDatabaseClient()
 	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
 		w.Write(api_utils.ErrorJson(err.Error()))
 		return
 	}
@@ -20,6 +21,7 @@ func Json(w http.ResponseWriter, r *http.Request) {
 
 	users, err := repo.GetAll()
 	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
 		w.Write(api_utils.ErrorJson(err.Error()))
 		return
 	}

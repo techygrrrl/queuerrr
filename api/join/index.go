@@ -2,7 +2,6 @@ package join
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"net/url"
 	"strings"
@@ -15,6 +14,7 @@ func Json(w http.ResponseWriter, r *http.Request) {
 
 	err := api_utils.Authenticate(r)
 	if err != nil {
+		w.WriteHeader(http.StatusUnauthorized)
 		w.Write(api_utils.ErrorJson(err.Error()))
 		return
 	}
@@ -23,12 +23,14 @@ func Json(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
 	username := query.Get("username")
 	if username == "" {
+		w.WriteHeader(http.StatusBadRequest)
 		w.Write(api_utils.ErrorJson("missing query param: username"))
 		return
 	}
 
 	userId := query.Get("user_id")
 	if userId == "" {
+		w.WriteHeader(http.StatusBadRequest)
 		w.Write(api_utils.ErrorJson("missing query param: user_id"))
 		return
 	}
@@ -42,6 +44,7 @@ func Json(w http.ResponseWriter, r *http.Request) {
 
 	db, err := api_utils.NewDatabaseClient()
 	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
 		w.Write(api_utils.ErrorJson(err.Error()))
 		return
 	}
@@ -50,12 +53,12 @@ func Json(w http.ResponseWriter, r *http.Request) {
 
 	err = repo.JoinQueue(userId, username, notes)
 	if err != nil {
-		fmt.Printf("here 1: %s", err.Error())
-
 		var errorMessage string
 		if strings.Contains(err.Error(), "duplicate key") {
+			w.WriteHeader(http.StatusConflict)
 			errorMessage = "user already in the queue"
 		} else {
+			w.WriteHeader(http.StatusInternalServerError)
 			errorMessage = err.Error()
 		}
 
@@ -65,12 +68,14 @@ func Json(w http.ResponseWriter, r *http.Request) {
 
 	entry, err := repo.FindUser(userId)
 	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
 		w.Write(api_utils.ErrorJson(err.Error()))
 		return
 	}
 
 	res, err := json.Marshal(entry)
 	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
 		w.Write(api_utils.ErrorJson(err.Error()))
 		return
 	}

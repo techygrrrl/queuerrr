@@ -12,6 +12,7 @@ func Json(w http.ResponseWriter, r *http.Request) {
 
 	err := api_utils.Authenticate(r)
 	if err != nil {
+		w.WriteHeader(http.StatusUnauthorized)
 		w.Write(api_utils.ErrorJson(err.Error()))
 		return
 	}
@@ -20,6 +21,7 @@ func Json(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
 	userId := query.Get("user_id")
 	if userId == "" {
+		w.WriteHeader(http.StatusBadRequest)
 		w.Write(api_utils.ErrorJson("missing query param: user_id"))
 		return
 	}
@@ -33,6 +35,7 @@ func Json(w http.ResponseWriter, r *http.Request) {
 
 	_, err = repo.FindUser(userId)
 	if err != nil {
+		w.WriteHeader(http.StatusConflict)
 		w.Write(api_utils.ErrorJson("user not in queue"))
 		return
 	}

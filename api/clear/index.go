@@ -12,12 +12,14 @@ func Json(w http.ResponseWriter, r *http.Request) {
 
 	err := api_utils.Authenticate(r)
 	if err != nil {
+		w.WriteHeader(http.StatusUnauthorized)
 		w.Write(api_utils.ErrorJson(err.Error()))
 		return
 	}
 
 	db, err := api_utils.NewDatabaseClient()
 	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
 		w.Write(api_utils.ErrorJson(err.Error()))
 		return
 	}
@@ -25,6 +27,7 @@ func Json(w http.ResponseWriter, r *http.Request) {
 
 	err = repo.ClearQueue()
 	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
 		w.Write(api_utils.ErrorJson(err.Error()))
 		return
 	}
@@ -34,6 +37,7 @@ func Json(w http.ResponseWriter, r *http.Request) {
 	}
 	res, err := json.Marshal(payload)
 	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
 		w.Write(api_utils.ErrorJson(err.Error()))
 		return
 	}
