@@ -127,7 +127,7 @@ export default function Home() {
 
             <tr>
               <td className="whitespace-nowrap align-top py-2 px-4 border-solid border border-white border-opacity-20">
-                <code>!info</code> or <code>!queue info</code>
+                <code>!queue info</code>
               </td>
               <td className="align-top py-2 px-4 border-solid border border-white border-opacity-20">
                 Get a list of everyone in the queue. This page, however, refreshes automatically.
