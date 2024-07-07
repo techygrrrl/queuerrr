@@ -143,7 +143,11 @@ export default function Home() {
               target="blank"
             >
               useQueuerrr()
-            </a>
+            </a> by <a
+              className="text-[#EF15BF] hover:text-[#EBEF15] hover:underline"
+              href="https://techygrrrl.stream"
+              target="blank"
+            >techygrrrl</a>
           </p>
         </footer>
       </main>
