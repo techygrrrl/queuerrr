@@ -31,8 +31,6 @@ export default function Home() {
     };
   }, [refreshQueue]);
 
-  console.log({ total, users });
-
   return (
     <>
       <CommonHead />
