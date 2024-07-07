@@ -38,6 +38,7 @@ func Json(w http.ResponseWriter, r *http.Request) {
 	notes := query.Get("notes")
 	notes, err = url.QueryUnescape(notes)
 	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
 		w.Write(api_utils.ErrorJson(err.Error()))
 		return
 	}
@@ -50,7 +51,6 @@ func Json(w http.ResponseWriter, r *http.Request) {
 	}
 
 	repo := api_utils.NewQueueRepository(db)
-
 	err = repo.JoinQueue(userId, username, notes)
 	if err != nil {
 		var errorMessage string

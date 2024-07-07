@@ -25,7 +25,6 @@ func Json(w http.ResponseWriter, r *http.Request) {
 	}
 
 	repo := api_utils.NewQueueRepository(db)
-
 	user, err := repo.NextInQueue()
 	if err != nil {
 		w.WriteHeader(http.StatusConflict)

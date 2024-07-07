@@ -27,10 +27,10 @@ func Json(w http.ResponseWriter, r *http.Request) {
 
 	db, err := api_utils.NewDatabaseClient()
 	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
 		w.Write(api_utils.ErrorJson(err.Error()))
 		return
 	}
-
 	repo := api_utils.NewQueueRepository(db)
 
 	position := repo.GetPosition(userId)
@@ -39,6 +39,7 @@ func Json(w http.ResponseWriter, r *http.Request) {
 	}
 	res, err := json.Marshal(payload)
 	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
 		w.Write(api_utils.ErrorJson(err.Error()))
 		return
 	}

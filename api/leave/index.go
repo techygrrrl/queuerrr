@@ -17,7 +17,6 @@ func Json(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Get the data
 	query := r.URL.Query()
 	userId := query.Get("user_id")
 	if userId == "" {
@@ -28,6 +27,7 @@ func Json(w http.ResponseWriter, r *http.Request) {
 
 	db, err := api_utils.NewDatabaseClient()
 	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
 		w.Write(api_utils.ErrorJson(err.Error()))
 		return
 	}
@@ -42,6 +42,7 @@ func Json(w http.ResponseWriter, r *http.Request) {
 
 	err = repo.LeaveQueue(userId)
 	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
 		w.Write(api_utils.ErrorJson(err.Error()))
 		return
 	}
@@ -51,6 +52,7 @@ func Json(w http.ResponseWriter, r *http.Request) {
 	}
 	res, err := json.Marshal(payload)
 	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
 		w.Write(api_utils.ErrorJson(err.Error()))
 		return
 	}
