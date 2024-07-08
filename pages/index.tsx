@@ -140,13 +140,13 @@ export default function Home() {
             <a
               className="text-[#EF15BF] hover:text-[#EBEF15] hover:underline"
               href="https://github.com/techygrrrl/queuerrr"
-              target="blank"
+              target="_blank"
             >
               useQueuerrr()
             </a> by <a
               className="text-[#EF15BF] hover:text-[#EBEF15] hover:underline"
               href="https://techygrrrl.stream"
-              target="blank"
+              target="_blank"
             >techygrrrl</a>
           </p>
         </footer>
