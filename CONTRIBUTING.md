@@ -2,7 +2,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-See `.envrc.example` for environment variables that are needed. You can do the following to copy the file then use direnv to use them before running the development server:
+See `.envrc.example` for environment variables that are needed. You can do the following to copy the file then use [direnv](https://direnv.net/) to use them before running the development server:
 
 ```bash
 # 1. copy the example file
